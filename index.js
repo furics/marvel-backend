@@ -38,6 +38,32 @@ app.get("/characters", async (req, res) => {
   }
 });
 
+// Route fiche personnages
+
+app.get("/character/:characterId", async (req, res) => {
+  try {
+    const characterId = req.results._id;
+    const response = await axios.get(
+      `https://lereacteur-marvel-api.herokuapp.com/character/${characterId}?apiKey=${process.env.MARVEL_API_KEY}`
+    );
+    res.json(response.data);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+app.get("/comics/:characterId", async (req, res) => {
+  try {
+    const characterId = req.results._id;
+    const response = await axios.get(
+      `https://lereacteur-marvel-api.herokuapp.com/comics/${characterId}?apiKey=${process.env.MARVEL_API_KEY}`
+    );
+    res.json(response.data);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 app.all("*", (req, res) => {
   res.status(404).json({ error: "This route doesn't exist" });
 });
